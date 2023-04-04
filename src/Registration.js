@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { validateEmail } from "./utils";
+import { useTheme } from "./ThemeContext";
 
 const PasswordErrorMessage = () => {
   return (
@@ -16,6 +17,7 @@ function Registration() {
     isTouched: false,
   });
   const [role, setRole] = useState("role");
+  const { theme } = useTheme();
 
   const getIsFormValid = () => {
     return ( 
@@ -45,7 +47,9 @@ function Registration() {
   };
 
   return (
-    <div className="Registration">
+    <div className="Registration" style={{
+      color: theme === "light" ? "black" : "white",
+    }}>
       <form onSubmit={handleSubmit}>
         <fieldset>
           <h2>Sign Up</h2>
