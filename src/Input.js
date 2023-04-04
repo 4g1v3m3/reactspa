@@ -20,6 +20,7 @@ function Input() {
   return ( 
     <>
       <form>
+        <h2>Input field:</h2>
         <input
           value={value}
           placeholder="Casino"

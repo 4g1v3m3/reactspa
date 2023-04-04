@@ -5,6 +5,9 @@ import Input from "./Input";
 import Registration from "./Registration";
 import { ThemeProvider, useTheme } from "./ThemeContext";
 import Switch from "./Switch";
+import UseStateHook from "./UseStateHook"
+import ManaginStateComponent from "./ManaginStateComponent";
+import UsingUseEffecHook from "./UsingUseEffectHook";
 
 const desserts = [
   {
@@ -46,48 +49,12 @@ const Title = ({ children }) => {
   );
 };
 
-const Paragraph = ({ children }) => {
-  const { theme } = useTheme();
-  return (
-    <p
-      style={{
-        color: theme === "light" ? "black" : "white",
-      }}
-    >
-      {children}
-    </p>
-  );
-};
-
-
-const Content = () => {
-  return (
-    <div>
-      <Paragraph>
-        We are a pizza loving family. And for years, I searched and searched and
-        searched for the perfect pizza dough recipe. I tried dozens, or more.
-        And while some were good, none of them were that recipe that would
-        make me stop trying all of the others.
-      </Paragraph>
-    </div>
-  );
-};
-
 const Header = () => {
   return (
     <header>
-      <Title>Little Lemon 🍕</Title>
+      <Title>Theme switcher Little Lemon 🍕</Title>
       <Switch />
     </header>
-  );
-};
-
-const Page = () => {
-  return (
-    <div className="Page">
-      <Title>When it comes to dough</Title>
-      <Content />
-    </div>
   );
 };
 
@@ -100,8 +67,10 @@ function App() {
         backgroundColor: theme === "light" ? "white" : "black",
       }}
     >
+      <UsingUseEffecHook />
+      <ManaginStateComponent />
+      <UseStateHook />
       <Header />
-      <Page />
       <Registration />
       <h2>List of low calorie desserts:</h2>
       <DessertsList data={desserts} />
