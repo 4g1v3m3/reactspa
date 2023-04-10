@@ -68,6 +68,7 @@ button {
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
+  border-radius: 1em;
 }
 
 button:disabled,
@@ -76,4 +77,22 @@ button[disabled] {
   background-color: #cccccc;
   color: #666666;
   cursor: not-allowed;
+}
+
+.RadioGroupComponent {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.App {
+ margin: auto;
+ padding: 1em; 
+}
+
+.Header {
+  font-size: x-large;
+  font-weight: bold;
 }

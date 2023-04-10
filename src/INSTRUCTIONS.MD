@@ -2,95 +2,81 @@
 
 ## Task
 
-You've revised the useState hook. You've also learned about working with primitive (string) data and complex data (state stored in objects).
+You've learned about some advanced React APIs, `React.cloneElement` and `React.Children.map` that allow you to modify the children of a component dynamically.
+In this exercise, you'll use these APIs to build a `RadioGroup` component.
 
-In this code lab, you'll practice updating the state stored in an object, based on the user interacting with the app.
+On HTML, an input of type `radio` offers a `checked` property to determine whether a radio button is selected or not.
 
-This code lab's app shows the Gift Card page of the Little Lemon Restaurant app, where a visitor initially has a Gift Card that they can use to have dinner for four.
+When building a radio group in React, in other words, a component that represents a set of choices where only one can be selected at a time, an initial implementation might look like this:
 
-The starter code shows the following information on the screen:
+```jsx
+  <RadioOption checked={false} onChange={handleOnChange} value="1" />
+  <RadioOption checked={true} onChange={handleOnChange} value="2" />
+  <RadioOption checked={false} onChange={handleOnChange} value="3" />
+```
 
-![Starting screen for this code lab](instruction-pics/m2l1-04-starting-screen.png)
+However, this approach is not ideal because it requires the user of the component to keep track of the state of each radio button,
+as well as setting state change handlers for each option.
 
-In other words, the text that shows on the screen is as follows:
-* A title of "Gift Card Page",
-* The name of the recipient, that in this case, says "Customer: Jennifer Smith",
-* A descriptor of the state of the gift card, which is "Free dinner for 4 guests"
-* Body text that states, "To use your coupon, click the button below"
+Wouldn't it be great to remove any redundancies and reduce the state to the bare minimum while still keeping the functionality intact? 
+Well, this is a great example where component composition shines and enables developers to use a more intuitive and simpler set of props to define a component's API.
 
-The "Spend Gift Card" button is set up to execute a function when clicked. However, that event-handling function is empty.
+Instead of having the user of the component to keep track of the state of each radio button,
+you can have a parent RadioGroup component that is aware of the current selection and provides a handler to manage any selection change,
+without you having to explicitly pass the `checked` and `onChange` props to each `RadioOption` component.
 
-That means that when serving the app with the starter code, if you click the "Spend Gift Card" button, there will be no change on the screen.
+The RadioGroup component can then leverage the `children` prop and use both `React.cloneElement` and `React.Children.map` to internally pass the `checked` and `onChange` props to each `RadioOption` child.
 
-Your task is to complete the event-handling function for the "Spend Gift Card" button clicks, as detailed in the steps below.
+```jsx
+<RadioGroup selected={selectedValue} onChange={handleOnChange}>
+  <RadioOption value="1" />
+  <RadioOption value="2" />
+  <RadioOption value="3" />
+</RadioGroup>
+```
 
-When the code lab is successfully completed, after the "Spend Gift Card" button is clicked, the UI should update to show the following information on the screen:
-
-![Completed click handler after the button is clicked](instruction-pics/m2l1-04-completed.png)
-
-In other words, the text that shows on the screen is as follows:
-* The title of Gift Card Page
-* The name of the recipient, that in this case, says "Customer: Jennifer Smith"
-* A descriptor of the state of the gift card, which is "Your coupon has been used", and
-* Body text that states, "Please visit our restaurant to renew your gift card"
+In this exercise, you are going to implement this exact component API.
 
 **Note:** Before you begin, make sure you understand how to work with the Coursera Code Lab for the [Advanced React course](https://www.coursera.org/learn/advanced-react/supplement/htaLX/working-with-labs-in-this-course).
+
+If you run **npm start** and view the app in the browser you'll notice that the starting React app works as is.
+The app outputs a simple view with a header and a submit button, but no radio options yet.
+
+![Alt text](images/image1.png)
 
 ## Steps
 
 ### **Step 1**
 
-Open the `App.js` file.
-
-Locate the `spendGiftCard()` function.
-
-Inside the `spendGiftCard()` function, invoke the `setGiftCard()` state-updating function. For now, just invoke it, without passing it any parameters or doing anything else with it.
+Open the `App.js` file. In there you will already see the desired API for the `RadioGroup` and `RadioOption` components.
+At the moment, they don't render anything on the screen. You don't have to change anything in this file, but just understand the set of props involved in the component design.
 
 ### **Step 2**
 
-Inside the `setGiftCard()` function invocation's parentheses, pass in an arrow function.
+Open the `Radio/index.js` file. Implement the remaining bits for the `RadioGroup` component. The RadioOptions variable is initially set to `null`.
+Instead, use `React.Children.map` to iterate over the `children` and clone each child using `React.cloneElement`. The result should be assigned to the `RadioOptions` variable.
 
-This arrow function has a single parameter, named `prevState`. After the arrow, add a block of code (starting with an opening curly brace, and ending with a closing curly brace two lines below).
+Each cloned child should receive two additional props, `checked` and `onChange`.
 
 ### **Step 3**
 
-In Step 2, you've added the previous state object as the `prevState` argument of the arrow function you passed to the `setGiftCard()` function.
+Open the `Radio/index.js` file. The `RadioOption` component is incomplete. In particular, it's missing some props in the input element that it renders: `value`, `checked` and `onChange`.
 
-Now you need to return a new object based on this previous state object.
+The `RadioOption` component already receives all those props. Your goal is to connect them to the input element.
 
-For now, in Step 3, you need to just return a copy of the `prevState` object.
+When adding the `onChange` prop to the radio input, which represents the event that gets triggered whenever you interact with it, you can access the `value` property of the event target to get the value of the newly selected radio option, as per the code below.
 
-That means that you need to use the `return` keyword and a copy of the `prevState` object, using the rest operator - that is, the `...` operator.
+```jsx
+const handleChange = (e) => {
+  const newValueSelected = e.target.value
+}
+```
 
 ### **Step 4**
 
-In Step 3, you returned a copy of the `prevState` object using the rest operator.
+Verify that the app works as expected. You should be able to select a radio option and see how the submit button gets enabled as soon as a selection is made.
 
-Now you need to combine this copy of the `prevState` object with those properties that you want updated.
-
-Put differently, you need to update some of the key-value pairs that already exist on the state object that were initially passed to the `useState()` function call.
-
-For now, in Step 4, update the `text` property of the state object, as follows:
-```js
-text: "Your coupon has been used."
-```
-
-### **Step 5**
-
-In Step 4, you've updated the `text` property on the state object.
-
-In this step, you need to update the remaining properties on the state object.
-
-You need to update the `valid` key's value to `false`.
-
-You need to update the `instructions` key's value to `Please visit our restaurant to renew your gift card.`.
-
-### Conclusion
-
-Save the changes and serve the app.
-
-Verify that the completed app, once saved and served, behaves as follows:
-1. Initially, the Spend Gift Card button is showing.
-2. Once you click the Spend Gift Card button, the `text` property value's update will now display the sentence that reads "Your coupon has been used".
-3. Additionally, the `instructions` key's value update will now display the text that reads "Please visit our restaurant to renew your gift card."
-4. Finally, since the `valid` key's value was updated to `false`, the button is no longer showing.
+### **Tips**
+The `RadioGroup` component receives the `selected` prop, a string that represents the value of the currently selected radio option.
+However, an individual `RadioOption` component only cares about whether it is selected or not, via the boolean`checked` prop.
+You would have to perform some small business logic inside the `RadioGroup` component to translate the `selected` prop to the `checked` prop that each `RadioOption` child receives.

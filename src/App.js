@@ -8,6 +8,12 @@ import Switch from "./Switch";
 import UseStateHook from "./UseStateHook"
 import ManaginStateComponent from "./ManaginStateComponent";
 import UsingUseEffecHook from "./UsingUseEffectHook";
+import Fetching from "./Fetchingdata";
+import CustomHook from "./CustomHook";
+import ComponentComposition from "./ComponentComposition";
+import RadioGroupComponent from "./RadioGroupComponent";
+import CursorPosition from "./CursorPosition";
+import PropsRendering from "./PropsRendering";
 
 const desserts = [
   {
@@ -67,7 +73,13 @@ function App() {
         backgroundColor: theme === "light" ? "white" : "black",
       }}
     >
+{/*      <ComponentComposition /> */}
+      <PropsRendering />
+      <CursorPosition />
+      <RadioGroupComponent />
       <UsingUseEffecHook />
+      <CustomHook />
+      <Fetching />
       <ManaginStateComponent />
       <UseStateHook />
       <Header />
@@ -75,7 +87,7 @@ function App() {
       <h2>List of low calorie desserts:</h2>
       <DessertsList data={desserts} />
       <Input />
-      <Feedback />
+      <Feedback /> 
     </div>
   );
 }

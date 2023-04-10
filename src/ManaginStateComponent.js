@@ -1,4 +1,4 @@
-import { findAllByAltText } from "@testing-library/react";
+import "./App.css";
 import { useState } from "react";
 
 export default function ManaginStateComponent() {
@@ -26,7 +26,7 @@ export default function ManaginStateComponent() {
   return (
     <div style={{padding: '40px'}}>
       <h1>
-        Mangin State Component
+        Managin State Component
       </h1>
       <h1>
         Gift Card Page
