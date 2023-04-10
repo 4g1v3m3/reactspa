@@ -14,6 +14,7 @@ import ComponentComposition from "./ComponentComposition";
 import RadioGroupComponent from "./RadioGroupComponent";
 import CursorPosition from "./CursorPosition";
 import PropsRendering from "./PropsRendering";
+import CursorPositionAlternative from "./CursorPositionAlternative";
 
 const desserts = [
   {
@@ -66,6 +67,9 @@ const Header = () => {
 
 function App() {
   const { theme } = useTheme();
+  const handleSubmit = () => {
+    console.log("Form submitted!");
+  };
   return (
     <div
       className="App"
@@ -76,6 +80,7 @@ function App() {
 {/*      <ComponentComposition /> */}
       <PropsRendering />
       <CursorPosition />
+      <CursorPositionAlternative />
       <RadioGroupComponent />
       <UsingUseEffecHook />
       <CustomHook />
@@ -87,7 +92,7 @@ function App() {
       <h2>List of low calorie desserts:</h2>
       <DessertsList data={desserts} />
       <Input />
-      <Feedback /> 
+      <Feedback onSubmit={handleSubmit} /> 
     </div>
   );
 }
